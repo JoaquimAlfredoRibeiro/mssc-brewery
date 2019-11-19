@@ -88,6 +88,5 @@ public class BeerControllerTest {
                 .andExpect(status().isNoContent());
 
         then(beerService).should().updateBeer(any(), any());
-
     }
 }
