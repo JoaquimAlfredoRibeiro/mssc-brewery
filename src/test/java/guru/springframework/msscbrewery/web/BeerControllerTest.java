@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbrewery.services.BeerService;
 import guru.springframework.msscbrewery.web.controller.BeerController;
 import guru.springframework.msscbrewery.web.model.BeerDTO;
+import guru.springframework.msscbrewery.web.model.BeerStyleEnum;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +43,7 @@ public class BeerControllerTest {
     public void setUp() {
         validBeer = BeerDTO.builder().id(UUID.randomUUID())
                 .beerName("Beer1")
-                .beerStyle("PALE_ALE")
+                .beerStyle(BeerStyleEnum.BOCK)
                 .upc(123456789012L)
                 .build();
     }
@@ -79,10 +80,11 @@ public class BeerControllerTest {
     public void handleUpdate() throws Exception {
         //given
         BeerDTO beerDto = validBeer;
+        beerDto.setId(null);
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
         //when
-        mockMvc.perform(put(BeerController.BASE_URL + "/" + validBeer.getId())
+        mockMvc.perform(put(BeerController.BASE_URL + "/" + UUID.randomUUID())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(beerDtoJson))
                 .andExpect(status().isNoContent());
